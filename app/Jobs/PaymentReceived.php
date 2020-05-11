@@ -73,6 +73,10 @@ class PaymentReceived extends Job implements ShouldQueue
             $log->save();
             $response = self::purchaseAirtime($data);
             if($response->status!=200) {
+                $data['account_no'] = "SAF".$data['account_no'];
+                $response = self::purchaseAirtime($data);
+            }
+            if($response->status!=200) {
                 $data['account_no'] = "SAF".$data['phone'];
                 $response = self::purchaseAirtime($data);
             }
