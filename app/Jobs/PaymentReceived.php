@@ -122,14 +122,20 @@ class PaymentReceived extends Job implements ShouldQueue
             ],
         ];
         if(strtolower(substr($payment_data['account_no'],0,3))=='air'){
+            $commission_kenavian = 6;
+            $commission_yangu = 2;
             $serviceId = $services['102']['serviceID'];
             $serviceCode = $services['102']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
-        }elseif(strtolower(substr($payment_data['account_no'],0,2))=='or'){
+        }elseif(strtolower(substr($payment_data['account_no'],0,2))=='or' || strtolower(substr($payment_data['account_no'],0,3))=='TEL'){
+            $commission_kenavian = 5;
+            $commission_yangu = 2;
             $serviceId = $services['103']['serviceID'];
             $serviceCode = $services['103']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
         }else{
+            $commission_kenavian = 5;
+            $commission_yangu = 2;
             $serviceId = $services['101']['serviceID'];
             $serviceCode = $services['101']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
@@ -173,6 +179,28 @@ class PaymentReceived extends Job implements ShouldQueue
         //log response
         Log::create($dt);
         $response = json_decode($data);
+        if($response->status==200) {
+            //add commission
+            $Acc = Account::wherePhone('yangu')->first();
+            if(!$Acc){
+                $Acc = new Account();
+                $Acc->balance = 0;
+                $Acc->phone = 'yangu';
+                $Acc->name = 'yangu';
+            }
+            $Acc->balance = $Acc->balance + $commission_yangu;
+            $Acc->save();
+
+            $Acc = Account::wherePhone('kenavian')->first();
+            if(!$Acc){
+                $Acc = new Account();
+                $Acc->balance = 0;
+                $Acc->phone = 'kenavian';
+                $Acc->name = 'kenavian';
+            }
+            $Acc->balance = $Acc->balance + $commission_kenavian;
+            $Acc->save();
+        }
         return $response;
     }
 }
