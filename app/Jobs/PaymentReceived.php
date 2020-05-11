@@ -126,20 +126,20 @@ class PaymentReceived extends Job implements ShouldQueue
             ],
         ];
         if(strtolower(substr($payment_data['account_no'],0,3))=='air'){
-            $commission_kenavian = 6;
-            $commission_yangu = 2;
+            $commission_kenavian = 0.06*$payment_data['amount'];
+            $commission_yangu = 0.02*$payment_data['amount'];
             $serviceId = $services['102']['serviceID'];
             $serviceCode = $services['102']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
         }elseif(strtolower(substr($payment_data['account_no'],0,2))=='or' || strtolower(substr($payment_data['account_no'],0,3))=='TEL'){
-            $commission_kenavian = 5;
-            $commission_yangu = 2;
+            $commission_kenavian = 0.05*$payment_data['amount'];
+            $commission_yangu = 0.02*$payment_data['amount'];
             $serviceId = $services['103']['serviceID'];
             $serviceCode = $services['103']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
         }else{
-            $commission_kenavian = 5;
-            $commission_yangu = 2;
+            $commission_kenavian = 0.04*$payment_data['amount'];
+            $commission_yangu = 0.02*$payment_data['amount'];
             $serviceId = $services['101']['serviceID'];
             $serviceCode = $services['101']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
