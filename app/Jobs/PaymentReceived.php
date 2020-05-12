@@ -121,8 +121,12 @@ class PaymentReceived extends Job implements ShouldQueue
                 "serviceCode"=>"AIRTEL"
             ],
             "103"=>[
-                "serviceID"=>102,
+                "serviceID"=>103,
                 "serviceCode"=>"TELKOM"
+            ],
+            "105"=>[
+                "serviceID"=>105,
+                "serviceCode"=>"KPLCPREPAID"
             ],
         ];
         if(strtolower(substr($payment_data['account_no'],0,3))=='air'){
@@ -137,6 +141,18 @@ class PaymentReceived extends Job implements ShouldQueue
             $serviceId = $services['103']['serviceID'];
             $serviceCode = $services['103']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
+        }elseif(strtolower(substr($payment_data['account_no'],0,5))=='TOKEN'){
+            $commission_kenavian = 0.014*$payment_data['amount'];
+            $commission_yangu = 0.005*$payment_data['amount'];
+            $serviceId = $services['105']['serviceID'];
+            $serviceCode = $services['105']['serviceCode'];
+            $phone = substr(trim($payment_data['account_no']),5);
+        }elseif(strtolower(substr($payment_data['account_no'],0,4))=='KPLC'){
+            $commission_kenavian = 0.014*$payment_data['amount'];
+            $commission_yangu = 0.005*$payment_data['amount'];
+            $serviceId = $services['105']['serviceID'];
+            $serviceCode = $services['105']['serviceCode'];
+            $phone = substr(trim($payment_data['account_no']),4);
         }else{
             $commission_kenavian = 0.04*$payment_data['amount'];
             $commission_yangu = 0.02*$payment_data['amount'];
