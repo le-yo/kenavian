@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Account;
+use App\Http\Controllers\ValidatePhoneController;
 use App\Log;
 use App\Payment;
 use Illuminate\Queue\SerializesModels;
@@ -132,7 +133,7 @@ class PaymentReceived extends Job implements ShouldQueue
             ],
         ];
 
-        $telco = Utility::channel($payment_data['account_no']);
+        $telco = ValidatePhoneController::channel($payment_data['account_no']);
 
         if($telco == 'AIRTEL'){
             $commission_kenavian = 0.06*$payment_data['amount'];
