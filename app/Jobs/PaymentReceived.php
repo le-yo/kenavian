@@ -141,7 +141,7 @@ class PaymentReceived extends Job implements ShouldQueue
             $serviceId = $services['102']['serviceID'];
             $serviceCode = $services['102']['serviceCode'];
             $phone = "254".substr(trim($payment_data['account_no']),-9);
-        }elseif($telco == 'TELCOM'){
+        }elseif($telco == 'TELKOM'){
             $commission_kenavian = 0.05*$payment_data['amount'];
             $commission_yangu = 0.02*$payment_data['amount'];
             $serviceId = $services['103']['serviceID'];
