@@ -54,7 +54,7 @@ class PaymentReceived extends Job implements ShouldQueue
         $data['account_no'] = $xml->getElementsByTagName('BillRefNumber')->item(0)->nodeValue;
         $data['transaction_time'] = $xml->getElementsByTagName('TransTime')->item(0)->nodeValue;
         $data['paybill'] = $xml->getElementsByTagName('BusinessShortCode')->item(0)->nodeValue;
-        $data['orgaccountbalance'] = $xml->getElementsByTagName('orgaccountbalance')->item(0)->nodeValue;
+        $data['orgaccountbalance'] = $xml->getElementsByTagName('OrgAccountBalance')->item(0)->nodeValue;
 
         // Check wether the transaction exists
         $transaction = Payment::whereTransactionId($data['transaction_id'])->first();
