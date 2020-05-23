@@ -106,6 +106,8 @@ class PaymentReceived extends Job implements ShouldQueue
     }
 
     public function purchaseAirtime($payment_data){
+        //sanitize account:
+        $payment_data['account_no'] = trim(str_replace(" ","",$payment_data['account_no']));
         $url = env('airtime_endpoint');
         $data = array();
         $data['Credentials'] = [
